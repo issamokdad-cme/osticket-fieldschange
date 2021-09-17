@@ -190,7 +190,7 @@ if ($_POST)
                 <em><strong><?php echo __('Ticket Information and Options');?></strong>:</em>
             </th>
         </tr>
-        <tr>
+        <tr style="display:none;">
             <td width="160" class="required">
                 <?php echo __('Ticket Source');?>:
             </td>
@@ -249,7 +249,7 @@ if ($_POST)
                 &nbsp;<font class="error"><b>*</b>&nbsp;<?php echo $errors['topicId']; ?></font>
             </td>
         </tr>
-        <tr>
+        <tr style="display:none;">
             <td width="160">
                 <?php echo __('Department'); ?>:
             </td>
@@ -275,7 +275,7 @@ if ($_POST)
             </td>
         </tr>
 
-         <tr>
+         <tr style="display:none;">
             <td width="160">
                 <?php echo __('SLA Plan');?>:
             </td>
@@ -295,18 +295,18 @@ if ($_POST)
             </td>
          </tr>
 
-         <tr>
+         <tr style="display:none;">
             <td width="160">
                 <?php echo __('Due Date');?>:
             </td>
             <td>
                 <?php
-                $duedateField = Ticket::duedateField('duedate', $info['duedate']);
-                $duedateField->render();
+                 $duedateField = Ticket::duedateField('duedate', $info['duedate']);
+                 $duedateField->render();
                 ?>
                 &nbsp;<font class="error">&nbsp;<?php echo $errors['duedate']; ?> &nbsp; <?php echo $errors['time']; ?></font>
                 <em><?php echo __('Time is based on your time
-                        zone');?>&nbsp;(<?php echo $cfg->getTimezone($thisstaff); ?>)</em>
+                         zone');?>&nbsp;(<?php echo $cfg->getTimezone($thisstaff); ?>)</em>
             </td>
         </tr>
 
@@ -429,11 +429,11 @@ print $response_form->getField('attachments')->render();
                     </select>
                 </td>
             </tr>
-             <tr>
+             <tr style="display:none;">
                 <td width="100"><?php echo __('Signature');?>:</td>
                 <td>
                     <?php
-                    $info['signature']=$info['signature']?$info['signature']:$thisstaff->getDefaultSignatureType();
+                     $info['signature']=$info['signature']?$info['signature']:$thisstaff->getDefaultSignatureType();
                     ?>
                     <label><input type="radio" name="signature" value="none" checked="checked"> <?php echo __('None');?></label>
                     <?php
