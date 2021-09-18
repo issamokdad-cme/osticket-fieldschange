@@ -228,7 +228,7 @@ else
 if ($total) {
     echo '<div>';
     echo '<span class="faded pull-right">'.$showing.'</span>';
-    echo sprintf('&nbsp;'.__('Page').': %s &nbsp; <a class="no-pjax"
+    echo sprintf('&nbsp;'.__('Page').': %s &nbsp; <a id="hideExportA" class="no-pjax"
             href="users.php?a=export&qh=%s">'.__('Export').'</a></div>',
             $pageNav->getPageLinks(),
             $qhash);

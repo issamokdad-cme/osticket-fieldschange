@@ -26,7 +26,7 @@ require_once(INCLUDE_DIR.'class.filter.php');
 require_once(INCLUDE_DIR.'class.canned.php');
 require_once(INCLUDE_DIR.'class.json.php');
 require_once(INCLUDE_DIR.'class.dynamic_forms.php');
-require_once(INCLUDE_DIR.'class.export.php');       // For paper sizes
+#require_once(INCLUDE_DIR.'class.export.php');       // For paper sizes
 
 // Fetch ticket queues organized by root and sub-queues
 $queues = CustomQueue::getHierarchicalQueues($thisstaff);
