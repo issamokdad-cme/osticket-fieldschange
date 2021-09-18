@@ -1,8 +1,3 @@
-<style>
-#queue-export{
-    display:none;
-}
-</style>
 <?php
 /*************************************************************************
     tickets.php
@@ -18,7 +13,13 @@
 
     vim: expandtab sw=4 ts=4 sts=4:
 **********************************************************************/
-
+?>
+<style>
+#queue-export{
+    display:none;
+}
+</style>
+<?php
 require('staff.inc.php');
 require_once(INCLUDE_DIR.'class.ticket.php');
 require_once(INCLUDE_DIR.'class.dept.php');
