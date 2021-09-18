@@ -54,7 +54,7 @@ if (isset($options['entry']) && $options['mode'] == 'edit') { ?>
                 <?php
             }
             else { ?>
-                <td class="multi-line <?php if ($field->isRequiredForStaff() || $field->isRequiredForClose()) echo 'required';
+                <td class="multi-line <?php if (($field->isRequiredForStaff() && $field->ht['id']!=1) || ($field->isRequiredForClose() && $field->ht['id']!=1)) echo 'required';
                 ?>" style="min-width:120px;" <?php if ($options['width'])
                     echo "width=\"{$options['width']}\""; ?>>
                 <?php echo Format::htmlchars($field->getLocal('label')); ?>:</td>
@@ -63,7 +63,7 @@ if (isset($options['entry']) && $options['mode'] == 'edit') { ?>
 
             if ($field->isEditableToStaff() || $isCreate) {
                 $field->render($options); ?>
-                <?php if (!$field->isBlockLevel() && $field->isRequiredForStaff()) { ?>
+                <?php if (!$field->isBlockLevel() && $field->isRequiredForStaff() && $field->ht['id']!=1) { ?>
                     <span class="error">*</span>
                 <?php
                 }
