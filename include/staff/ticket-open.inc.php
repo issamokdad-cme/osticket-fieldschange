@@ -326,8 +326,14 @@ if ($_POST)
                         echo '<OPTGROUP label="'.sprintf(__('Agents (%d)'), count($users)).'">';
                         foreach ($users as $id => $name) {
                             $k="s$id";
-                            echo sprintf('<option value="%s" %s>%s</option>',
-                                        $k, (($info['assignId']==$k) ? 'selected="selected"' : ''), $name);
+                            if($thisstaff->ht['staff_id']==$id){
+                              echo sprintf('<option value="%s" %s>%s</option>',
+                              $k, 'selected="selected"', $name);
+                            }else{
+                              echo sprintf('<option value="%s" %s>%s</option>',
+                              $k, (($info['assignId']==$k) ? 'selected="selected"' : ''), $name);
+                            }
+
                         }
                         echo '</OPTGROUP>';
                     }
