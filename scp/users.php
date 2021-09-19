@@ -12,20 +12,17 @@
 
     vim: expandtab sw=4 ts=4 sts=4:
 **********************************************************************/
-?>
-<style>
-#hideExportA{
-    display:none;
-}
-</style>
-<?php
 require('staff.inc.php');
 
 if (!$thisstaff->hasPerm(User::PERM_DIRECTORY))
     Http::redirect('index.php');
 
 require_once INCLUDE_DIR.'class.note.php';
-
+echo '<style>
+#hideExportA{
+    display:none;
+}
+</style>';
 $user = null;
 if ($_REQUEST['id'] && !($user=User::lookup($_REQUEST['id'])))
     $errors['err'] = sprintf(__('%s: Unknown or invalid'), _N('end user', 'end users', 1));

@@ -13,13 +13,6 @@
 
     vim: expandtab sw=4 ts=4 sts=4:
 **********************************************************************/
-?>
-<style>
-#queue-export{
-    display:none;
-}
-</style>
-<?php
 require('staff.inc.php');
 require_once(INCLUDE_DIR.'class.ticket.php');
 require_once(INCLUDE_DIR.'class.dept.php');
@@ -28,7 +21,11 @@ require_once(INCLUDE_DIR.'class.canned.php');
 require_once(INCLUDE_DIR.'class.json.php');
 require_once(INCLUDE_DIR.'class.dynamic_forms.php');
 #require_once(INCLUDE_DIR.'class.export.php');       // For paper sizes
-
+echo '<style>
+#queue-export{
+    display:none;
+}
+</style>';
 // Fetch ticket queues organized by root and sub-queues
 $queues = CustomQueue::getHierarchicalQueues($thisstaff);
 
