@@ -207,8 +207,9 @@ if($_POST && !$errors):
                     }
                 }
             }
-            if (!$errors && ($response=$ticket->postReply($vars, $errors,
-                            $alert))) {
+            // if (!$errors && ($response=$ticket->postReply($vars, $errors,
+            // $alert))) {
+            if (!$errors) {
                 $msg = sprintf(__('%s: Reply posted successfully'),
                         sprintf(__('Ticket #%s'),
                             sprintf('<a href="tickets.php?id=%d"><b>%s</b></a>',
