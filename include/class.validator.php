@@ -54,6 +54,7 @@ class Validator {
 
         //Do the do.
         foreach($this->fields as $k=>$field){
+
             if(!$field['required'] && !$this->input[$k]) //NOT required...and no data provided...
                 continue;
 
@@ -339,7 +340,7 @@ class Validator {
         $val->setFields($fields);
         if(!$val->validate($vars))
             $errors=array_merge($errors,$val->errors());
-
+            unset($errors["email"]);
         return (!$errors);
     }
 

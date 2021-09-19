@@ -4034,7 +4034,11 @@ implements RestrictedAccess, Threadable, Searchable {
     static function create($vars, &$errors, $origin, $autorespond=true,
             $alertstaff=true) {
         global $ost, $cfg, $thisstaff;
-
+        unset($vars['email']);
+        // echo '<pre>';
+        // var_dump($vars);
+        // echo '</pre>';
+        // exit;
         // Don't enforce form validation for email
         $field_filter = function($type) use ($origin) {
             return function($f) use ($origin, $type) {
@@ -4606,6 +4610,7 @@ implements RestrictedAccess, Threadable, Searchable {
         )) {
             $errors['assignId'] = __('Action Denied. You are not allowed to assign/reassign tickets.');
         }
+        unset($errors['email']);
 
         // TODO: Deny action based on selected department.
         $vars['response'] = ThreadEntryBody::clean($vars['response']);
@@ -4695,6 +4700,7 @@ implements RestrictedAccess, Threadable, Searchable {
             $email->send($recipients, $msg['subj'], $msg['body'], $attachments,
                 $options);
         }
+
         return $ticket;
     }
 
