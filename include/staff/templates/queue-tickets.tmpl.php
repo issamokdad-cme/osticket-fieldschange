@@ -354,11 +354,7 @@ function getQuestionAnswer($id){
         foreach ($displayed as $a) {
             $id =  $a->getLocal('id');
             $field = $a->getField();
-            echo '<pre>';
-            var_dump($field);
-            echo '</pre>';
-            exit;
-            if($field->ht['label']!="Is IMPACT team's help needed?" or $field->ht['label']!="هل يتطلب الاتصال الاستعانة بفريق منصة IMPACT؟"){
+            if(strcmp($field->ht['label'], "Is IMPACT team's help needed?")!=0 and strcmp($field->ht['label'], "هل يتطلب الاتصال الاستعانة بفريق منصة IMPACT؟")!=0){
                 continue;
             }
             $config = $field->getConfiguration();
