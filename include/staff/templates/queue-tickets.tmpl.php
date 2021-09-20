@@ -361,7 +361,9 @@ function getQuestionAnswer($id){
                     ? ($html ? Format::striptags($v) : $v)
                     : '&mdash;' . __('Empty') .  '&mdash;';
             $clean = Format::truncate($v, 200);
-            return $clean;
+            if($clean=="yes" or $clean=="no"){
+                return $clean;
+            }
         }
 
 }}
