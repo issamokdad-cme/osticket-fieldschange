@@ -243,6 +243,7 @@ if ($canManageTickets) { ?>
 
 foreach ($columns as $C) {
     $heading = Format::htmlchars($C->getLocalHeading());
+    echo $c;
     if ($C->isSortable()) {
         $args = $_GET;
         $dir = $sort['col'] != $C->id ?: ($sort['dir'] ? 'desc' : 'asc');
@@ -254,18 +255,24 @@ foreach ($columns as $C) {
     echo sprintf('<th width="%s" data-id="%d">%s</th>',
         $C->getWidth(), $C->id, $heading);
 }
+echo sprintf("<th width=170>help needed?</th>");
 ?>
     </tr>
   </thead>
   <tbody>
 <?php
 foreach ($tickets as $T) {
+    // echo '<pre>';
+    // var_dump($T);
+    // echo '</pre>';
+    // exit;
     echo '<tr>';
     if ($canManageTickets) { ?>
         <td><input type="checkbox" class="ckb" name="tids[]"
             value="<?php echo $T['ticket_id']; ?>" /></td>
 <?php
     }
+    $counter = 0;
     foreach ($columns as $C) {
         list($contents, $styles) = $C->render($T);
         if ($style = $styles ? 'style="'.$styles.'"' : '') {
@@ -274,6 +281,11 @@ foreach ($tickets as $T) {
         else {
             echo "<td>$contents</td>";
         }
+        if( $counter == count( $columns ) - 1){
+            $answer = getQuestionAnswer($T['ticket_id']);
+            echo "<td>$answer</td>";
+        }
+        $counter++;
     }
     echo '</tr>';
 }
@@ -312,3 +324,44 @@ foreach ($tickets as $T) {
 <?php
     } ?>
 </form>
+<?php
+function getQuestionAnswer($id){
+    foreach (DynamicFormEntry::forTicket($id) as $form) {
+        $form->addMissingFields();
+    
+        //Find fields to exclude if disabled by help topic
+        $disabled = Ticket::getMissingRequiredFields(Ticket::lookup($id), true);
+    
+        // Skip core fields shown earlier in the ticket view
+        // TODO: Rewrite getAnswers() so that one could write
+        //       ->getAnswers()->filter(not(array('field__name__in'=>
+        //           array('email', ...))));
+        $answers = $form->getAnswers()->exclude(Q::any(array(
+            'field__flags__hasbit' => DynamicFormField::FLAG_EXT_STORED,
+            'field__name__in' => array('subject', 'priority'),
+            'field__id__in' => $disabled,
+        )));
+    
+        $displayed = array();
+        foreach($answers as $a) {
+            if (!$a->getField()->isVisibleToStaff())
+                continue;
+            $displayed[] = $a;
+        }
+        if (count($displayed) == 0)
+            continue;
+
+        foreach ($displayed as $a) {
+            $id =  $a->getLocal('id');
+            $field = $a->getField();
+            $config = $field->getConfiguration();
+            $html = isset($config['html']) ? $config['html'] : false;
+            $v = $html ? Format::striptags($a->display()) : $a->display();
+            $clean = (Format::striptags($v))
+                    ? ($html ? Format::striptags($v) : $v)
+                    : '&mdash;' . __('Empty') .  '&mdash;';
+            $clean = Format::truncate($v, 200);
+            return $clean;
+        }
+
+}}

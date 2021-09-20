@@ -1,4 +1,5 @@
 <?php
+
 //Note that ticket obj is initiated in tickets.php.
 if(!defined('OSTSCPINC') || !$thisstaff || !is_object($ticket) || !$ticket->getId()) die('Invalid path');
 
@@ -10,7 +11,6 @@ $info=($_POST && $errors)?Format::input($_POST):array();
 
 $type = array('type' => 'viewed');
 Signal::send('object.view', $ticket, $type);
-
 //Get the goodies.
 $dept     = $ticket->getDept();  //Dept
 $role     = $ticket->getRole($thisstaff);
@@ -59,7 +59,6 @@ if (!$errors['err']) {
 }
 
 $unbannable=($emailBanned) ? BanList::includes($ticket->getEmail()) : false;
-
 if($ticket->isOverdue())
     $warn.='&nbsp;&nbsp;<span class="Icon overdueTicket">'.__('Marked overdue!').'</span>';
 
@@ -166,7 +165,6 @@ if($ticket->isOverdue())
                     echo __('Change Owner'); ?></a></li>
                 <?php
                  }
-
                  if ($role->hasPerm(Ticket::PERM_MERGE) && !$ticket->isChild()) { ?>
                      <li><a href="#ajax.php/tickets/<?php echo $ticket->getId();
                          ?>/merge" onclick="javascript:
@@ -307,6 +305,7 @@ if($ticket->isOverdue())
     </div>
   </div>
 </div>
+
 <div class="clear tixTitle has_bottom_border">
     <h3>
     <?php $subject_field = TicketForm::getInstance()->getField('subject');
@@ -351,6 +350,7 @@ if($ticket->isOverdue())
                            <td><?php echo $ticket->getPriority(); ?></td>
                       <?php } ?>
                 </tr>
+
                 <tr>
                     <th><?php echo __('Department');?>:</th>
                     <?php
@@ -437,6 +437,8 @@ if($ticket->isOverdue())
                                     $ticket->getThreadId(),
                                     $recipients);
                              }?>
+
+
 <?php                   } # end if ($user) ?>
                     </td>
                 </tr>
@@ -446,6 +448,7 @@ if($ticket->isOverdue())
                         <span id="user-<?php echo $ticket->getOwnerId(); ?>-email"><?php echo $ticket->getEmail(); ?></span>
                     </td>
                 </tr>
+
 <?php   if ($user->getOrganization()) { ?>
                 <tr>
                     <th><?php echo __('Organization'); ?>:</th>
@@ -458,6 +461,7 @@ if($ticket->isOverdue())
                         (<b><?php echo $user->getNumOrganizationTickets(); ?></b>)
                         </a>
                             <div id="action-dropdown-org-stats" class="action-dropdown anchor-right">
+
                                 <ul>
 <?php   if ($open = $user->getNumOpenOrganizationTickets()) { ?>
                                     <li><a href="tickets.php?<?php echo Http::build_query(array(
@@ -465,6 +469,7 @@ if($ticket->isOverdue())
                                     )); ?>"><i class="icon-folder-open-alt icon-fixed-width"></i>
                                     <?php echo sprintf(_N('%d Open Ticket', '%d Open Tickets', $open), $open); ?>
                                     </a></li>
+
 <?php   }
         if ($closed = $user->getNumClosedOrganizationTickets()) { ?>
                                     <li><a href="tickets.php?<?php echo Http::build_query(array(
@@ -485,7 +490,8 @@ if($ticket->isOverdue())
                             </div>
                         </td>
                     </tr>
-<?php   } # end if (user->org) ?>
+
+<?php   }# end if (user->org) ?>
                 <tr>
                   <th><?php echo __('Source'); ?>:</th>
                   <td>
@@ -512,6 +518,7 @@ if($ticket->isOverdue())
         </td>
     </tr>
 </table>
+
 <br>
 <table class="ticket_info" cellspacing="0" cellpadding="0" width="940" border="0">
     <tr>
@@ -606,6 +613,7 @@ if($ticket->isOverdue())
                 ?>
             </table>
         </td>
+
         <td width="50%">
             <table cellspacing="0" cellpadding="4" width="100%" border="0">
                 <tr>
@@ -642,6 +650,7 @@ if($ticket->isOverdue())
 <?php
 foreach (DynamicFormEntry::forTicket($ticket->getId()) as $form) {
     $form->addMissingFields();
+
     //Find fields to exclude if disabled by help topic
     $disabled = Ticket::getMissingRequiredFields($ticket, true);
 
@@ -654,6 +663,7 @@ foreach (DynamicFormEntry::forTicket($ticket->getId()) as $form) {
         'field__name__in' => array('subject', 'priority'),
         'field__id__in' => $disabled,
     )));
+
     $displayed = array();
     foreach($answers as $a) {
         if (!$a->getField()->isVisibleToStaff())
@@ -685,6 +695,7 @@ foreach (DynamicFormEntry::forTicket($ticket->getId()) as $form) {
 ?>
         <tr>
             <td width="200"><?php echo Format::htmlchars($label); ?>:</td>
+
             <td id="<?php echo sprintf('inline-answer-%s', $field->getId()); ?>">
             <?php if ($role->hasPerm(Ticket::PERM_EDIT)
                     && $field->isEditableToStaff()) {
@@ -697,8 +708,10 @@ foreach (DynamicFormEntry::forTicket($ticket->getId()) as $form) {
                     $title = ($html && !$isEmpty) ? __('View Content') : __('Update');
                     $href = $url.(($html && !$isEmpty) ? '/view' : '/edit');
                          ?>
+                                                           
+
                   <a class="inline-edit" data-placement="bottom" data-toggle="tooltip" title="<?php echo $title; ?>"
-                      href="<?php echo $href; ?>">
+                      href="<?php echo $href;?>">
                   <?php
                     if ($isFile && !$isEmpty) {
                       echo "<i class=\"icon-edit\"></i>";
@@ -707,15 +720,18 @@ foreach (DynamicFormEntry::forTicket($ticket->getId()) as $form) {
                       echo sprintf('<span id="field_%s" %s >%s</span>', $id, $class, $clean);
                       echo "<br><i class=\"icon-edit\"></i>";
                     } else
+
                         echo sprintf('<span id="field_%s" %s >%s</span>', $id, $class, $clean);
 
                     $a = $field->getAnswer();
+
                     $hint = ($field->isRequiredForClose() && $a && !$a->getValue() && get_class($field) != 'BooleanField') ?
                         sprintf('<i class="icon-warning-sign help-tip warning field-label" data-title="%s" data-content="%s"
                         /></i>', __('Required to close ticket'),
                         __('Data is required in this field in order to close the related ticket')) : '';
                     echo $hint;
                   ?>
+
               </a>
             <?php
             } else {

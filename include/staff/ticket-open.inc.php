@@ -479,7 +479,7 @@ print $response_form->getField('attachments')->render();
     </tbody>
 </table>
 <p style="text-align:center;">
-    <input type="submit" name="submit" value="<?php echo _P('action-button', 'افتح');?>">
+    <input type="submit" name="submit" value="<?php echo _P('action-button', 'إرسال');?>">
     <input type="reset"  name="reset"  value="<?php echo __('إعادة الضبط');?>">
     <input type="button" name="cancel" value="<?php echo __('إلغاء');?>" onclick="javascript:
         $(this.form).find('textarea.richtext')

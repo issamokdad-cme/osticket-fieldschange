@@ -23,6 +23,7 @@ if ($thisclient->isGuest())
 require_once(INCLUDE_DIR.'class.ticket.php');
 require_once(INCLUDE_DIR.'class.json.php');
 $ticket=null;
+
 if($_REQUEST['id']) {
     if (!($ticket = Ticket::lookup($_REQUEST['id']))) {
         $errors['err']=__('Unknown or invalid ticket ID.');
@@ -34,7 +35,6 @@ if($_REQUEST['id']) {
 
 if (!$ticket && $thisclient->isGuest())
     Http::redirect('view.php');
-
 $tform = TicketForm::objects()->one()->getForm();
 $messageField = $tform->getField('message');
 $attachments = $messageField->getWidget()->getAttachments();
