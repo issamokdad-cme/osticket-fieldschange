@@ -354,6 +354,13 @@ function getQuestionAnswer($id){
         foreach ($displayed as $a) {
             $id =  $a->getLocal('id');
             $field = $a->getField();
+            echo '<pre>';
+            var_dump($field);
+            echo '</pre>';
+            exit;
+            if($field->ht['label']!="Is IMPACT team's help needed?" or $field->ht['label']!="هل يتطلب الاتصال الاستعانة بفريق منصة IMPACT؟"){
+                continue;
+            }
             $config = $field->getConfiguration();
             $html = isset($config['html']) ? $config['html'] : false;
             $v = $html ? Format::striptags($a->display()) : $a->display();
@@ -361,9 +368,7 @@ function getQuestionAnswer($id){
                     ? ($html ? Format::striptags($v) : $v)
                     : '&mdash;' . __('Empty') .  '&mdash;';
             $clean = Format::truncate($v, 200);
-            if($clean=="yes" or $clean=="no"){
                 return $clean;
-            }
         }
 
 }}
